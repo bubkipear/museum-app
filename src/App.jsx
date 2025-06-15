@@ -7,7 +7,7 @@ import './App.css'
 function App() {
   return (
     <div className="min-h-screen bg-primary">
-      <Router>
+      <Router basename="/museum-app">
         <Routes>
           <Route path="/" element={<Search />} />
           <Route path="/results" element={<Results />} />
