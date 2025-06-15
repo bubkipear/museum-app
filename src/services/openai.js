@@ -26,6 +26,7 @@ export const searchOpenAI = async (query) => {
           name: "historicalContext",
           schema: {
             type: "object",
+            required: ["immediateContext", "historicalBackdrop", "queryYear", "queryCountry", "timeline"],
             properties: {
               immediateContext: { 
               description: "A summary of the immediate historical context surrounding the query, be descriptive. Keep responses under 100 words.",
@@ -34,6 +35,7 @@ export const searchOpenAI = async (query) => {
             historicalBackdrop: { 
               description: "Wider historical backdrop of the query, surrounding the century of the query. Be descriptive of what was happening in different parts of the world so the user can understand the context of their query. Keep responses in an engaging, paragraph format, don't use numbered lists. Responses should be around 100 words. ",
               type: "object",
+              required: ["europe", "americas", "asia", "africa", "cultural", "technological"],
               properties: {
                 europe: {
                   description: "At least 3 major happenings in Europe during this period. Be descriptive and responses around 100 words.  ",
@@ -72,16 +74,18 @@ export const searchOpenAI = async (query) => {
             timeline: {
               type: "object",
               description: "The 5 most important events that occurred within 10 years of the query. Spread the events out evenly among the 10 years. Keep name of events extremely concise, around 5 words.",
+              required: ["localEvents", "globalEvents"],
               properties: {
                 localEvents: {
                   type: "array",
                   description: "The 5 most important events within the query country.",
                   items: {
                     type: "object",
+                    required: ["year", "event"],
                     properties: {
                       year: { type: "number" },
                       event: { type: "string" }
-                    },
+                    }
                   }
                 },
                 globalEvents: {
@@ -89,11 +93,12 @@ export const searchOpenAI = async (query) => {
                   description: "The 5 most important world events outside of the query continent. Only include events that occurred outside of the query country, and prioritise events outside the query continent. The aim is to provide a global context, of what's happening around the world at around the same decade.",
                   items: {
                     type: "object",
+                    required: ["year", "event", "region"],
                     properties: {
                       year: { type: "number" },
                       event: { type: "string" },
                       region: { type: "string" }
-                    },
+                    }
                   }
                 }
               },
